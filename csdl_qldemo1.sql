@@ -175,28 +175,20 @@ CREATE TABLE IF NOT EXISTS BANG_SuKien (
     TieuDe VARCHAR(200) NOT NULL,
     NoiDung TEXT NOT NULL,
 
-    ThoiGianBatDau TIMESTAMP NOT NULL,
-    ThoiGianKetThuc TIMESTAMP NOT NULL,
+    ThoiGianBatDau DATETIME NOT NULL,
+    ThoiGianKetThuc DATETIME NOT NULL,
+
     DiaDiem VARCHAR(255) NOT NULL,
 
     SoLuongToiDa INT NULL,
-    TrangThai ENUM('Draft','Open','Closed','Cancelled')
-        NOT NULL DEFAULT 'Open',
+    TrangThai ENUM('Draft','Open','Closed','Cancelled') NOT NULL DEFAULT 'Open',
 
     TaoLuc TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CapNhatLuc TIMESTAMP NOT NULL
-        DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    CapNhatLuc TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
-
-CREATE INDEX idx_sukien_thoigian
-    ON BANG_SuKien(ThoiGianBatDau, ThoiGianKetThuc);
-
-CREATE INDEX idx_sukien_trangthai
-    ON BANG_SuKien(TrangThai);
-
+CREATE INDEX idx_sukien_thoigian ON BANG_SuKien(ThoiGianBatDau, ThoiGianKetThuc);
+CREATE INDEX idx_sukien_trangthai ON BANG_SuKien(TrangThai);
 
 -- =========================================================
 -- 14.2. BẢNG ẢNH SỰ KIỆN (NHIỀU ẢNH)
