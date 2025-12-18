@@ -1,0 +1,52 @@
+/* ===============================
+   EVENT PAGE TITLES
+   =============================== */
+
+:root {
+  --title-gradient: linear-gradient(
+    90deg,
+    #3b82f6,   /* blue-500 */
+    #22c55e   /* green-500 */
+  );
+  --title-text-dark: #0f172a;
+  --title-subtle: #64748b;
+}
+
+/* Wrapper tiêu đề */
+.page-title {
+  position: relative;
+  margin-bottom: 1.25rem;
+  padding-left: 14px;
+}
+
+/* Thanh nhấn bên trái */
+.page-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 4px;
+  height: 70%;
+  border-radius: 4px;
+  background: var(--title-gradient);
+}
+
+/* Tiêu đề chính */
+.page-title h1,
+.page-title h2 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0;
+
+  background: var(--title-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Mô tả nhỏ dưới tiêu đề */
+.page-title p {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--title-subtle);
+}

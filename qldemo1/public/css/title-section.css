@@ -1,0 +1,72 @@
+:root{
+  /* Monochromatic Deep Sea Blue */
+  --primary-900:#071A2B;
+  --primary-800:#0A2440;
+  --primary-700:#0E2F55;
+  --primary-600:#14406F;
+  --primary-500:#1D5FA8;
+  --primary-400:#2C7BE5;
+  --primary-300:#6FA8FF;
+
+  --text-900:#0b1220;
+  --text-600:#52607A;
+
+  --bg:#f6f9ff;
+  --card:#ffffff;
+
+  --shadow: 0 12px 28px rgba(10,36,64,.10);
+  --radius: 18px;
+}
+
+/* Khối tiêu đề kiểu giống trang Thông tin SV */
+.page-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin: 6px 0 18px;
+}
+
+.page-title{
+  position:relative;
+  padding-left:18px; /* chừa chỗ cho “vạch xanh” */
+}
+
+.page-title::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:6px;
+  width:6px;
+  height:34px;
+  border-radius:999px;
+  background: linear-gradient(180deg, var(--primary-400), var(--primary-300));
+  box-shadow: 0 10px 18px rgba(44,123,229,.22);
+}
+
+.page-title h1{
+  margin:0;
+  font-size:34px;
+  font-weight:800;
+  letter-spacing:-0.6px; /* hẹp lại cho chuyên nghiệp */
+  line-height:1.1;
+
+  /* màu “đẹp như Xem tiến độ”: gradient chữ */
+  background: linear-gradient(90deg, var(--primary-400), var(--primary-300));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.page-title p{
+  margin:6px 0 0;
+  color:var(--text-600);
+  font-size:14px;
+}
+
+/* nút góc phải (Đã đăng ký / Quay lại) đồng bộ */
+.page-head .head-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}

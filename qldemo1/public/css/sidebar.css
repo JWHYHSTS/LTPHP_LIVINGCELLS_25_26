@@ -123,3 +123,33 @@ body.sidebar-collapsed .sidebar form{
   .sidebar{ display:flex; flex-direction:column; }
   .sidebar form{ margin-top: auto; }
 }
+.nav-link i {
+    font-size: 1.1rem;
+}
+
+.nav-link.active i {
+    color: #fff;
+}
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;              /* khoảng cách icon – chữ */
+    font-size: 15px;
+    padding: 10px 14px;
+}
+
+.nav-link i {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.nav-link.active i {
+    opacity: 1;
+}
+.nav-link.active i {
+    color: #ffffff;
+}
+
+.nav-link:not(.active) i {
+    color: rgba(255,255,255,0.8);
+}

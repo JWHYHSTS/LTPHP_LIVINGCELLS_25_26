@@ -251,6 +251,7 @@ class SinhVienController extends Controller
 
 public function suKienDangKy(Request $request)
 {
+    
     $data = $request->validate([
         'MaSK' => 'required|integer',
     ]);
@@ -297,6 +298,42 @@ public function suKienDangKy(Request $request)
     }
 
     return back()->with('success', 'Đã đăng ký sự kiện.');
+    // A) Lấy sự kiện
+$sk = DB::table('bang_sukien')->where('MaSK', $data['MaSK'])->first();
+if (!$sk) return back()->with('error', 'Sự kiện không tồn tại.');
+
+// B) Chỉ cho đăng ký khi Open
+if (($sk->TrangThai ?? '') !== 'Open') {
+    return back()->with('error', 'Sự kiện chưa mở hoặc đã đóng.');
+}
+
+// C) Không cho đăng ký nếu đã kết thúc
+if (Carbon::parse($sk->ThoiGianKetThuc)->lt(now())) {
+    return back()->with('error', 'Sự kiện đã kết thúc.');
+}
+
+// D) Không cho đăng ký trùng (bạn đã có, nhưng nên check Registered)
+$exists = DB::table('bang_dangkysukien')
+    ->where('MaSK', $data['MaSK'])
+    ->where('MaSV', $maSV)
+    ->where('TrangThaiDangKy', 'Registered')
+    ->exists();
+
+if ($exists) {
+    return back()->with('error', 'Bạn đã đăng ký sự kiện này rồi.');
+}
+
+// E) Chặn full slot
+if (!empty($sk->SoLuongToiDa)) {
+    $cnt = DB::table('bang_dangkysukien')
+        ->where('MaSK', $data['MaSK'])
+        ->where('TrangThaiDangKy', 'Registered')
+        ->count();
+
+    if ($cnt >= (int)$sk->SoLuongToiDa) {
+        return back()->with('error', 'Sự kiện đã đủ số lượng.');
+    }
+}
 }
 
 public function suKienDaDangKy()
@@ -334,6 +371,81 @@ public function suKienDaDangKy()
     }
 
     return view('sinhvien.sukien.dadangky', compact('rows'));
+}
+public function suKienTinhNguyenIndex()
+{
+    $u = session('user');
+    $maSV = $u['MaSV'] ?? null;
+
+    if (!$maSV && isset($u['MaTK'])) {
+        $maSV = DB::table('bang_sinhvien')->where('MaTK', $u['MaTK'])->value('MaSV');
+    }
+
+    if (!$maSV) {
+        return redirect()->back()->with('error', 'Không xác định được sinh viên.');
+    }
+
+    $now = now();
+
+    // Map sự kiện mà SV đã đăng ký (MaSK => true)
+    $registeredMap = DB::table('bang_dangkysukien')
+        ->where('MaSV', $maSV)
+        ->where('TrangThaiDangKy', 'Registered')
+        ->pluck('MaSK')
+        ->flip();
+
+    // Đếm số đăng ký theo sự kiện (để chặn full slot)
+    $countMap = DB::table('bang_dangkysukien')
+        ->select('MaSK', DB::raw('COUNT(*) as cnt'))
+        ->where('TrangThaiDangKy', 'Registered')
+        ->groupBy('MaSK')
+        ->pluck('cnt', 'MaSK');
+
+    // Lấy danh sách sự kiện (chỉ Open)
+    $events = DB::table('bang_sukien')
+        ->where('TrangThai', 'Open')
+        ->orderByDesc('MaSK')
+        ->get()
+        ->map(function ($e) use ($registeredMap, $countMap, $now) {
+            $e->is_registered = isset($registeredMap[$e->MaSK]);
+
+            $end = Carbon::parse($e->ThoiGianKetThuc);
+            $e->is_expired = $end->lt($now);
+
+            $e->reg_count = (int)($countMap[$e->MaSK] ?? 0);
+            $e->is_full = !empty($e->SoLuongToiDa) && $e->reg_count >= (int)$e->SoLuongToiDa;
+
+            $e->can_register = (!$e->is_registered)
+                && (!$e->is_expired)
+                && (!$e->is_full);
+
+            return $e;
+        });
+
+    // Map ảnh bìa: ảnh ThuTu nhỏ nhất của mỗi MaSK
+    $coverMap = DB::table('bang_sukien_anh')
+        ->select('MaSK', DB::raw('MIN(ThuTu) as min_thutu'))
+        ->groupBy('MaSK')
+        ->get()
+        ->mapWithKeys(function ($x) { return [$x->MaSK => $x->min_thutu]; });
+
+    $coverPaths = DB::table('bang_sukien_anh')
+        ->whereIn('MaSK', $coverMap->keys())
+        ->orderBy('ThuTu')
+        ->get();
+
+    $finalCoverMap = [];
+    foreach ($coverPaths as $img) {
+        if (!isset($finalCoverMap[$img->MaSK])) {
+            $finalCoverMap[$img->MaSK] = $img->DuongDan;
+        }
+    }
+
+    return view('sinhvien.sukien.index', [
+        'events'   => $events,
+        'coverMap' => $finalCoverMap,
+        'maSV'     => $maSV,
+    ]);
 }
 }
 

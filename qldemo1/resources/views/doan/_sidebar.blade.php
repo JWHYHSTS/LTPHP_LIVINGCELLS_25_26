@@ -17,14 +17,18 @@
       Quản lý danh hiệu
     </a>
   </li>
-  <li class="nav-item">
-  <a class="nav-link" href="{{ route('doan.sukien.index') }}">
-    Quản lý sự kiện
-  </a>
+<li class="nav-item">
+    <a href="{{ route('doan.sukien.index') }}"
+       class="nav-link {{ request()->routeIs('doan.sukien.*') ? 'active' : 'text-white' }}">
+        <i class="bi bi-calendar-event"></i>
+        <span>Quản lý sự kiện</span>
+    </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="{{ route('doan.sukien.dangky.index') }}">
-    Danh sách đăng ký sự kiện
-  </a>
+    <a href="{{ route('doan.sukien.dangky.index') }}"
+       class="nav-link {{ request()->routeIs('doan.sukien.dangky.*') ? 'active' : 'text-white' }}">
+        <i class="bi bi-clipboard-check"></i>
+        <span>Danh sách đăng ký sự kiện</span>
+    </a>
 </li>
 </ul>

@@ -1,0 +1,198 @@
+/* =========================================
+   Deep Sea Blue UI Kit (Monochromatic)
+   File: public/css/sinhvien-dadangky.css
+========================================= */
+
+/* 1) COLOR SYSTEM (Monochromatic Deep Sea Blue) */
+:root{
+  --primary-900:#061826;   /* Deep sea - darkest */
+  --primary-800:#082033;
+  --primary-700:#0B2B46;
+  --primary-600:#0E3A5E;
+  --primary-500:#135A8A;   /* main */
+  --primary-400:#1A75B0;   /* accent */
+  --primary-300:#4AA3D8;
+  --primary-200:#A9D7F0;
+  --primary-100:#E8F4FB;
+
+  --bg:#F6FAFD;
+  --surface:#FFFFFF;
+  --surface-2:#F2F7FB;
+
+  --text:#0B1220;
+  --muted:#5B6B7C;
+
+  --border:#E6EEF5;
+
+  --success:#16A34A;
+  --warning:#F59E0B;
+
+  --shadow-sm: 0 6px 16px rgba(6, 24, 38, 0.08);
+  --shadow-md: 0 14px 32px rgba(6, 24, 38, 0.12);
+
+  --radius: 16px;
+  --radius-sm: 12px;
+
+  --transition: 220ms cubic-bezier(.2,.8,.2,1);
+}
+
+/* 2) PAGE WRAPPER */
+.sv-reg-page{
+  background: var(--bg);
+  color: var(--text);
+  padding: 18px 22px;
+}
+
+.sv-reg-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.sv-reg-title{
+  margin:0;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em; /* hẹp nhẹ để “pro” */
+  color: var(--primary-900);
+}
+
+.sv-reg-subtitle{
+  margin:6px 0 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* 3) BUTTON SET (Gradient + no border + hover + active “lún”) */
+.btn-sv{
+  display:inline-flex;
+  align-items:center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  user-select: none;
+
+  transition: transform var(--transition),
+              box-shadow var(--transition),
+              filter var(--transition),
+              background var(--transition);
+}
+
+.btn-sv-primary{
+  color:#fff;
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-400));
+  box-shadow: 0 10px 22px rgba(11,43,70,0.18);
+}
+
+.btn-sv-primary:hover{
+  filter: brightness(1.03);
+  box-shadow: 0 14px 30px rgba(11,43,70,0.22);
+  transform: translateY(-1px);
+}
+
+.btn-sv-primary:active{
+  transform: translateY(1px); /* “lún” */
+  box-shadow: 0 8px 18px rgba(11,43,70,0.18);
+}
+
+.btn-sv-ghost{
+  color: var(--primary-700);
+  background: rgba(10, 42, 70, 0.06);
+  box-shadow: none;
+}
+
+.btn-sv-ghost:hover{
+  background: rgba(10, 42, 70, 0.10);
+  transform: translateY(-1px);
+}
+
+.btn-sv-ghost:active{
+  transform: translateY(1px);
+}
+
+/* 4) TABLE (Modern data table) */
+.sv-table-wrap{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.table.sv-table{
+  margin:0;
+  border-color: var(--border);
+}
+
+.table.sv-table thead th{
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
+  color: var(--primary-900);
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  border-bottom: 1px solid var(--border) !important;
+  padding: 14px 14px;
+}
+
+.table.sv-table tbody td{
+  vertical-align: middle;
+  padding: 14px 14px;
+  border-top: 1px solid var(--border);
+  color: var(--text);
+}
+
+.table.sv-table tbody tr{
+  transition: background var(--transition);
+}
+
+.table.sv-table tbody tr:hover{
+  background: rgba(19, 90, 138, 0.045);
+}
+
+/* subtle first column */
+.sv-col-stt{
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* 5) STATUS CHIPS (đậm, rõ) */
+.sv-chip{
+  display:inline-flex;
+  align-items:center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color:#fff;
+  box-shadow: 0 10px 18px rgba(6,24,38,0.12);
+}
+
+.sv-chip-success{
+  background: linear-gradient(135deg, #0F8A3A, #22C55E);
+}
+
+.sv-chip-warning{
+  background: linear-gradient(135deg, #D97706, #F59E0B);
+  color:#1a1205;
+  box-shadow: 0 10px 18px rgba(217,119,6,0.16);
+}
+
+.sv-chip-sub{
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* 6) RESPONSIVE */
+@media (max-width: 992px){
+  .sv-reg-title{ font-size: 24px; }
+  .sv-reg-page{ padding: 14px 14px; }
+}

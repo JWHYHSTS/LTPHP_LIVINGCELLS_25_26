@@ -13,7 +13,9 @@
 
   {{-- CSS custom (không dùng Vite) --}}
   <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
-
+  <link rel="stylesheet" href="{{ asset('css/sinhvien-title.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/toast.css') }}">
+  @stack('styles')
   <style>
     .app-wrap {
       min-height: 100vh;
@@ -443,5 +445,17 @@
       injectIcons();
     }
   })();
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const toasts = document.querySelectorAll(".toast-notification");
+
+    toasts.forEach(toast => {
+        setTimeout(() => {
+            toast.classList.add("toast-hide");
+            setTimeout(() => toast.remove(), 500);
+        }, 3000); // 3 giây
+    });
+});
 </script>
 </html>

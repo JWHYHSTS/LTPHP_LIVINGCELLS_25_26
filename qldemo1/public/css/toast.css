@@ -1,0 +1,88 @@
+/* ===============================
+   TOAST NOTIFICATION SYSTEM
+   =============================== */
+
+.toast-notification {
+  position: fixed;
+  top: 20px;
+  right: 28px;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 20px;
+  min-width: 280px;
+
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 500;
+
+  color: #fff;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+
+  animation: toast-slide-in 0.4s ease forwards;
+}
+
+/* SUCCESS */
+.toast-success {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+/* ERROR */
+.toast-error {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
+
+/* ICON */
+.toast-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* HIDE */
+.toast-hide {
+  animation: toast-fade-out 0.5s ease forwards;
+}
+
+/* ANIMATION */
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-fade-out {
+  to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+/* FIX: Toast bị mờ trên nền sáng */
+.sv-toast {
+  opacity: 1 !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+
+  /* nền rõ hơn để không chìm trên ảnh */
+  background: #ffffff !important;
+  color: #0f172a !important;
+
+  box-shadow: 0 12px 30px rgba(15, 23, 42, .18) !important;
+  border: 1px solid rgba(15, 23, 42, .10) !important;
+}
+
+.sv-toast-title,
+.sv-toast-msg,
+.sv-toast-close {
+  opacity: 1 !important;
+  color: inherit !important;
+}
+.sv-toast-success { border-left: 6px solid #22c55e !important; }
+.sv-toast-error   { border-left: 6px solid #ef4444 !important; }

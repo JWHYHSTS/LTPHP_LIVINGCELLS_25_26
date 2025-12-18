@@ -163,7 +163,7 @@ Route::prefix('sinhvien')
         Route::post('/caidat/doimk', [SinhVienController::class, 'changePassword'])
             ->middleware('throttle:5,1') // chống spam
             ->name('sv.settings.password'); // Đảm bảo route có tên này
-        Route::get('/sukien',             [SinhVienController::class, 'suKienIndex'])->name('sv.sukien.index');
+        Route::get('/sukien', [SinhVienController::class, 'suKienTinhNguyenIndex'])->name('sv.sukien.index');
         Route::post('/sukien/dangky',     [SinhVienController::class, 'suKienDangKy'])->name('sv.sukien.dangky');
         Route::get('/sukien/dadangky',    [SinhVienController::class, 'suKienDaDangKy'])->name('sv.sukien.dadangky');
     });
