@@ -58,4 +58,8 @@ class TaiKhoan extends Model
     {
         return (new static)->getTable();
     }
+    public function adminProfile() { return $this->hasOne(\App\Models\AdminProfile::class, 'MaTK', 'MaTK'); }
+public function ctctProfile()  { return $this->hasOne(\App\Models\CtctHssvProfile::class, 'MaTK', 'MaTK'); }
+public function khaoThiProfile(){ return $this->hasOne(\App\Models\KhaoThiProfile::class, 'MaTK', 'MaTK'); }
+public function doanProfile()  { return $this->hasOne(\App\Models\DoanTruongProfile::class, 'MaTK', 'MaTK'); }
 }

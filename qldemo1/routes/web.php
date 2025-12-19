@@ -8,6 +8,7 @@ use App\Http\Controllers\CtctController;
 use App\Http\Controllers\KhaothiController;
 use App\Http\Controllers\DoanController;
 use App\Http\Controllers\SinhVienController;
+use App\Http\Controllers\Admin\StaffProfileController;
 
 Route::get('/', fn() => redirect()->route('login.show'));
 
@@ -49,6 +50,14 @@ Route::prefix('admin')
                 Route::post('/delete', 'delete')->name('delete');   // xóa
                 Route::post('/import', 'import')->name('import');   // import Excel
                 Route::get('/template', 'downloadTemplate')->name('template');
+            });
+        // Staff/Profiles: nhập thông tin phòng/ban cho Admin/CTCTHSSV/KhaoThi/DoanTruong
+        Route::controller(StaffProfileController::class)
+            ->prefix('staff')
+            ->name('staff.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/upsert', 'upsert')->name('upsert');
             });
     });
 // Khao Thi routes

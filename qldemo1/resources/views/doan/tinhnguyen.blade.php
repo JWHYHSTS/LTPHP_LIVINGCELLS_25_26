@@ -3,6 +3,12 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/doan-tinhnguyen.css') }}">
+<link rel="stylesheet" href="{{ asset('css/toast.css') }}">
+{{-- Toast container (góc phải trên) --}}
+<div id="toastStack"
+     style="position:fixed; top:20px; right:28px;
+            z-index:9999; display:flex; flex-direction:column; gap:12px;">
+</div>
 <div class="row">
   <main class="col-md-12">
     <h5>Quản lý ngày tình nguyện</h5>
@@ -221,59 +227,112 @@
     </form>
   </div>
 </div>
+<script id="toastPayload" type="application/json">
+{!! json_encode([
+  'success'    => session('success'),
+  'error'      => session('error'),
+  'firstError' => $errors->any() ? $errors->first() : null,
+], JSON_UNESCAPED_UNICODE) !!}
+</script>
 
 @push('scripts')
 <script>
+  /* =========================
+     TOAST SYSTEM
+  ========================= */
+  function showToast(type, message, title = 'Thông báo', duration = 2500) {
+    const stack = document.getElementById('toastStack');
+    if (!stack) return;
+
+    const toast = document.createElement('div');
+    const success = type === 'success';
+
+    toast.className = `toast-notification sv-toast
+      ${success ? 'toast-success sv-toast-success' : 'toast-error sv-toast-error'}`;
+
+    toast.innerHTML = `
+      <span class="toast-icon">${success ? '✅' : '❌'}</span>
+      <div style="flex:1">
+        <div class="sv-toast-title"><strong>${title}</strong></div>
+        <div class="sv-toast-msg">${message ?? ''}</div>
+      </div>
+      <button class="sv-toast-close" style="border:none;background:none;font-size:18px">✕</button>
+    `;
+
+    toast.style.position = 'relative';
+    stack.appendChild(toast);
+
+    const close = () => {
+      toast.classList.add('toast-hide');
+      setTimeout(() => toast.remove(), 500);
+    };
+
+    toast.querySelector('.sv-toast-close').onclick = close;
+    setTimeout(close, duration);
+  }
+
+  /* =========================
+     NÚT LƯU
+  ========================= */
   document.getElementById('btn-refresh')?.addEventListener('click', () => {
-    const alertBox = document.createElement('div');
-    alertBox.className = 'alert alert-success position-fixed top-0 end-0 m-3 shadow';
-    alertBox.style.zIndex = '2000';
-    alertBox.textContent = '✅ Đã cập nhật thành công! Đang quay lại...';
-    document.body.appendChild(alertBox);
+    showToast('success', 'Đã cập nhật thành công! Đang quay lại...', 'Thành công', 1500);
     setTimeout(() => {
       window.location.href = "{{ route('doan.tinhnguyen.index') }}";
     }, 1500);
   });
+
+  /* =========================
+     MODAL SỬA
+  ========================= */
   document.getElementById('editNTN')?.addEventListener('show.bs.modal', e => {
     const b = e.relatedTarget;
+    if (!b) return;
+
     const get = k => b.getAttribute('data-' + k) || '';
+
     document.getElementById('edit_mantn').value = get('mantn');
-    document.getElementById('edit_masv').value = get('masv'); // readonly
-    document.getElementById('edit_hoten').value = get('hoten'); // readonly
+    document.getElementById('edit_masv').value  = get('masv');
+    document.getElementById('edit_hoten').value = get('hoten');
     document.getElementById('edit_tenhd').value = get('tenhd');
-    document.getElementById('edit_ngay').value = get('ngay');
+    document.getElementById('edit_ngay').value  = get('ngay');
     document.getElementById('edit_songay').value = get('songay');
     document.getElementById('edit_trangthai').value = get('trangthai');
   });
-</script>
-<script>
-  document.getElementById('btnRefresh')?.addEventListener('click', () => {
-    const a = document.createElement('div');
-    a.className = 'alert alert-success position-fixed top-0 end-0 m-3';
-    a.textContent = 'Đã lưu thay đổi, đang tải lại...';
-    document.body.appendChild(a);
-    setTimeout(() => location.reload(), 1000);
+
+  /* =========================
+     MODAL XOÁ (nếu dùng)
+  ========================= */
+  document.getElementById('delNTN')?.addEventListener('show.bs.modal', e => {
+    const b = e.relatedTarget;
+    if (!b) return;
+
+    document.getElementById('d_mantn').value = b.getAttribute('data-mantn') || '';
+    document.getElementById('d_tenhd').textContent = b.getAttribute('data-tenhd') || '';
   });
 
-  // Đổ dữ liệu vào modal Sửa
-  const editModal = document.getElementById('editNTN');
-  editModal?.addEventListener('show.bs.modal', ev => {
-    const b = ev.relatedTarget;
-    document.getElementById('e_mantn').value = b.getAttribute('data-mantn');
-    document.getElementById('e_masv').value = b.getAttribute('data-masv');
-    document.getElementById('e_tenhd').value = b.getAttribute('data-tenhd');
-    document.getElementById('e_ngay').value = b.getAttribute('data-ngay');
-    document.getElementById('e_songay').value = b.getAttribute('data-songay');
-    document.getElementById('e_trangthai').value = b.getAttribute('data-trangthai');
-  });
+  /* =========================
+     TOAST TỪ SESSION / ERRORS
+     (JS THUẦN -> KHÔNG BÁO ĐỎ)
+  ========================= */
+  const payloadEl = document.getElementById('toastPayload');
+const payload = payloadEl ? JSON.parse(payloadEl.textContent || '{}') : {};
 
-  // Đổ dữ liệu vào modal Xoá
-  const delModal = document.getElementById('delNTN');
-  delModal?.addEventListener('show.bs.modal', ev => {
-    const b = ev.relatedTarget;
-    document.getElementById('d_mantn').value = b.getAttribute('data-mantn');
-    document.getElementById('d_tenhd').textContent = b.getAttribute('data-tenhd');
-  });
+const toastSuccess = payload.success;
+const toastError   = payload.error;
+const firstError   = payload.firstError;
+
+if (toastSuccess) showToast('success', toastSuccess, 'Thành công');
+if (toastError)   showToast('error', toastError, 'Lỗi');
+if (firstError)   showToast('error', firstError, 'Dữ liệu không hợp lệ');
+  if (toastSuccess) {
+    showToast('success', toastSuccess, 'Thành công');
+  }
+  if (toastError) {
+    showToast('error', toastError, 'Lỗi');
+  }
+  if (firstError) {
+    showToast('error', firstError, 'Dữ liệu không hợp lệ');
+  }
 </script>
 @endpush
 @endsection

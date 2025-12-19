@@ -176,3 +176,24 @@ h5{
   background:#d5f5dd;
   color:#0f5132;
 }
+/* Toast style giống ảnh 1 */
+.app-toast{
+  border: 0;
+  border-left: 6px solid #22c55e;     /* xanh */
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(2,20,43,.12);
+  overflow: hidden;
+  min-width: 320px;
+}
+
+.app-toast .toast-header{
+  background: #fff;
+  border-bottom: 0;
+  padding: 10px 12px;
+}
+
+.app-toast .toast-body{
+  background: #fff;
+  padding: 10px 12px 12px 12px;
+  color: #0f172a;
+}
