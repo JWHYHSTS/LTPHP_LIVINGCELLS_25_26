@@ -50,9 +50,9 @@ class AccountController extends Controller
         ]);
 
         $payload = [
-            'MaTK'        => $r->MaTK,     
+            'MaTK'        => $r->MaTK,
             'TenDangNhap' => $r->TenDangNhap,
-            'MatKhau'     => $r->MatKhau,  
+            'MatKhau'     => $r->MatKhau,
             'VaiTro'      => $r->VaiTro,
             'TrangThai'   => 'Active',
             'Email'       => $r->Email,
@@ -97,7 +97,7 @@ class AccountController extends Controller
         ];
 
         if ($r->filled('MatKhau')) {
-            $data['MatKhau'] = $r->MatKhau; 
+            $data['MatKhau'] = $r->MatKhau;
         }
 
         $tk->update($data);

@@ -8,22 +8,22 @@
 <div class="row">
   <main class="col-md-12 hide-old-progress-link">
     {{-- Banner hiệu ứng gradient + typewriter --}}
-<section class="hero-animated my-4 text-center">
-  {{-- Đếm ký tự câu này (ví dụ 36), điền vào --chars --}}
-  <div class="typewriter" style="--chars: 36">
-    Chào mừng bạn đến với trang Sinh viên
-  </div>
-  <p class="hero-sub">Theo dõi GPA, điểm rèn luyện và tiến độ danh hiệu của bạn.</p>
-  <a href="#progress" class="btn-neon mt-3">
-    Xem tiến độ <i class="bi bi-lightning-charge"></i>
-  </a>
-</section>
+    <section class="hero-animated my-4 text-center">
+      {{-- Đếm ký tự câu này (ví dụ 36), điền vào --chars --}}
+      <div class="typewriter" style="--chars: 36">
+        Chào mừng bạn đến với trang Sinh viên
+      </div>
+      <p class="hero-sub">Theo dõi GPA, điểm rèn luyện và tiến độ danh hiệu của bạn.</p>
+      <a href="#progress" class="btn-neon mt-3">
+        Xem tiến độ <i class="bi bi-lightning-charge"></i>
+      </a>
+    </section>
     <h3 class="section-title underline glow with-icon">
-  <span>Thông tin cá nhân</span>
-  <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-    <i class="bi bi-gear" style="font-size: 1.4rem;"></i>
-  </button>
-</h3>
+      <span>Thông tin cá nhân</span>
+      <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+        <i class="bi bi-gear" style="font-size: 1.4rem;"></i>
+      </button>
+    </h3>
 
     {{-- Thông tin sinh viên --}}
     <div class="card mb-3">
@@ -71,7 +71,7 @@
     {{-- Danh hiệu --}}
     <h3 id="awards" class="section-title underline glow"><span>Khen thưởng danh hiệu</span></h3>
     <div class="table-responsive mb-3 awards-shell">
-  <table class="table table-modern">
+      <table class="table table-modern">
         <thead class="table-light">
           <tr>
             <th style="width:70px">STT</th>
@@ -114,12 +114,12 @@
     </div>
 
     {{-- ===== XEM TIẾN ĐỘ ===== --}}
-<div class="text-center">
-  <h3 id="progress" class="section-title centered glow"><span>Xem tiến độ</span></h3>
-</div>
-{{-- (xoá hoặc đổi link cũ như hướng dẫn ở trên) --}}
+    <div class="text-center">
+      <h3 id="progress" class="section-title centered glow"><span>Xem tiến độ</span></h3>
+    </div>
+    {{-- (xoá hoặc đổi link cũ như hướng dẫn ở trên) --}}
 
-<div id="progress" class="card">
+    <div id="progress" class="card">
       <div class="card-body">
         @php($awardProgress = $awardProgress ?? collect())
         @forelse($awardProgress as $ap)

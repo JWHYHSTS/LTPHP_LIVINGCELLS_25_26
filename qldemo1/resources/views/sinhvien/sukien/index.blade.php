@@ -18,19 +18,19 @@
         </div>
     </div>
 
-@if(session('success'))
-<div id="toast-success" class="toast-notification toast-success">
-    <span class="toast-icon">✔</span>
-    <span class="toast-message">{{ session('success') }}</span>
-</div>
-@endif
+    @if(session('success'))
+    <div id="toast-success" class="toast-notification toast-success">
+        <span class="toast-icon">✔</span>
+        <span class="toast-message">{{ session('success') }}</span>
+    </div>
+    @endif
 
-@if(session('error'))
-<div id="toast-error" class="toast-notification toast-error">
-    <span class="toast-icon">✖</span>
-    <span class="toast-message">{{ session('error') }}</span>
-</div>
-@endif
+    @if(session('error'))
+    <div id="toast-error" class="toast-notification toast-error">
+        <span class="toast-icon">✖</span>
+        <span class="toast-message">{{ session('error') }}</span>
+    </div>
+    @endif
 
     <div class="sv-toolbar">
         <div class="sv-search">

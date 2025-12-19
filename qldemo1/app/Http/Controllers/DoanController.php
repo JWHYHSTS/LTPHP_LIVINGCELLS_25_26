@@ -389,25 +389,25 @@ class DoanController extends Controller
         $q = $request->input('q');
 
         $events = SuKien::query()
-    ->when($q, function ($query) use ($q) {
-        $query->where(function ($sub) use ($q) {
-            $sub->where('TieuDe', 'like', "%{$q}%")
-                ->orWhere('DiaDiem', 'like', "%{$q}%");
-        });
-    })
-    ->orderByDesc('MaSK')
-    ->paginate(5)
-    ->withQueryString(); // giữ ?q=... khi bấm chuyển trang
+            ->when($q, function ($query) use ($q) {
+                $query->where(function ($sub) use ($q) {
+                    $sub->where('TieuDe', 'like', "%{$q}%")
+                        ->orWhere('DiaDiem', 'like', "%{$q}%");
+                });
+            })
+            ->orderByDesc('MaSK')
+            ->paginate(5)
+            ->withQueryString(); // giữ ?q=... khi bấm chuyển trang
 
         // lấy ảnh đầu tiên theo ThuTu để hiển thị nhanh trên bảng
         $eventIds = $events->pluck('MaSK')->toArray();
 
-$firstImages = SuKienAnh::query()
-    ->select('MaSK', DB::raw('MIN(ThuTu) as min_thutu'))
-    ->whereIn('MaSK', $eventIds)
-    ->groupBy('MaSK')
-    ->get()
-    ->keyBy('MaSK');
+        $firstImages = SuKienAnh::query()
+            ->select('MaSK', DB::raw('MIN(ThuTu) as min_thutu'))
+            ->whereIn('MaSK', $eventIds)
+            ->groupBy('MaSK')
+            ->get()
+            ->keyBy('MaSK');
 
         $imageMap = [];
         if ($firstImages->count()) {
@@ -578,41 +578,41 @@ $firstImages = SuKienAnh::query()
     // =========================
     public function suKienDangKyIndex(Request $request)
     {
- $MaSK = $request->get('MaSK');
-    $q    = $request->get('q');
+        $MaSK = $request->get('MaSK');
+        $q    = $request->get('q');
 
-    $events = DB::table('bang_sukien')
-        ->orderByDesc('MaSK')
-        ->get();
+        $events = DB::table('bang_sukien')
+            ->orderByDesc('MaSK')
+            ->get();
 
-    $rows = collect();
+        $rows = collect();
 
-    if (!empty($MaSK)) {
-        $rows = DB::table('bang_dangkysukien as dk')
-            ->join('bang_sinhvien as sv', 'sv.MaSV', '=', 'dk.MaSV')
-            ->where('dk.MaSK', $MaSK)
-            ->when($q, function($query) use ($q){
-                $query->where(function($sub) use ($q){
-                    $sub->where('sv.MaSV', 'like', "%{$q}%")
-                        ->orWhere('sv.HoTen', 'like', "%{$q}%");
-                });
-            })
-            ->select(
-                'dk.MaSK',
-                'dk.MaSV',
-                'sv.HoTen',
-                'sv.Lop',
-                'dk.DangKyLuc',
-                'dk.TrangThaiDangKy',
-                'dk.DaDiemDanh',
-                'dk.DiemDanhLuc'
-            )
-            ->orderBy('sv.HoTen')
-            ->paginate(5)
-            ->appends($request->query()); // giữ MaSK, q khi chuyển trang
-    }
+        if (!empty($MaSK)) {
+            $rows = DB::table('bang_dangkysukien as dk')
+                ->join('bang_sinhvien as sv', 'sv.MaSV', '=', 'dk.MaSV')
+                ->where('dk.MaSK', $MaSK)
+                ->when($q, function ($query) use ($q) {
+                    $query->where(function ($sub) use ($q) {
+                        $sub->where('sv.MaSV', 'like', "%{$q}%")
+                            ->orWhere('sv.HoTen', 'like', "%{$q}%");
+                    });
+                })
+                ->select(
+                    'dk.MaSK',
+                    'dk.MaSV',
+                    'sv.HoTen',
+                    'sv.Lop',
+                    'dk.DangKyLuc',
+                    'dk.TrangThaiDangKy',
+                    'dk.DaDiemDanh',
+                    'dk.DiemDanhLuc'
+                )
+                ->orderBy('sv.HoTen')
+                ->paginate(5)
+                ->appends($request->query()); // giữ MaSK, q khi chuyển trang
+        }
 
-    return view('doan.sukien.dangky', compact('events', 'rows', 'MaSK'));
+        return view('doan.sukien.dangky', compact('events', 'rows', 'MaSK'));
     }
 
     public function suKienDiemDanh(Request $request)

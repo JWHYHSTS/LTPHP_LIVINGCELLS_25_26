@@ -12,7 +12,7 @@
   <div class="card-body py-2 d-flex flex-wrap gap-2 align-items-center">
     <form class="ms-auto d-flex" method="get">
       <input class="form-control me-2" name="q" value="{{ $q ?? '' }}"
-             placeholder="Tìm theo tên đăng nhập / email / vai trò / MaTK...">
+        placeholder="Tìm theo tên đăng nhập / email / vai trò / MaTK...">
       <button class="btn btn-outline-primary"><i class="bi bi-search"></i> Tìm</button>
     </form>
   </div>
@@ -20,12 +20,12 @@
 
 {{-- (Tuỳ chọn) giữ box lỗi đỏ để dễ xem chi tiết --}}
 @if($errors->any())
-  <div class="alert alert-danger">
-    <div class="fw-semibold mb-1">Có lỗi nhập liệu:</div>
-    <ul class="mb-0">
-      @foreach($errors->all() as $e) <li>{{ $e }}</li> @endforeach
-    </ul>
-  </div>
+<div class="alert alert-danger">
+  <div class="fw-semibold mb-1">Có lỗi nhập liệu:</div>
+  <ul class="mb-0">
+    @foreach($errors->all() as $e) <li>{{ $e }}</li> @endforeach
+  </ul>
+</div>
 @endif
 
 <div class="table-responsive">
@@ -44,72 +44,73 @@
 
     <tbody>
       @forelse($data as $i => $r)
-        @php
-          $profileText = 'Chưa có';
+      @php
+      $profileText = 'Chưa có';
 
-          if($r->VaiTro === 'Admin' && $r->adminProfile){
-            $profileText = 'MaAdmin: '.$r->adminProfile->MaAdmin;
-          }
+      if($r->VaiTro === 'Admin' && $r->adminProfile){
+      $profileText = 'MaAdmin: '.$r->adminProfile->MaAdmin;
+      }
 
-          if($r->VaiTro === 'CTCTHSSV' && $r->ctctProfile){
-            $profileText = 'MaCTCT: '.$r->ctctProfile->MaCTCT
-              .' | '.$r->ctctProfile->TenPhong
-              .' | '.$r->ctctProfile->NguoiQL;
-          }
+      if($r->VaiTro === 'CTCTHSSV' && $r->ctctProfile){
+      $profileText = 'MaCTCT: '.$r->ctctProfile->MaCTCT
+      .' | '.$r->ctctProfile->TenPhong
+      .' | '.$r->ctctProfile->NguoiQL;
+      }
 
-          if($r->VaiTro === 'KhaoThi' && $r->khaoThiProfile){
-            $profileText = 'MaPKT: '.$r->khaoThiProfile->MaPKT
-              .' | '.$r->khaoThiProfile->TenPhong
-              .' | '.$r->khaoThiProfile->NguoiQL;
-          }
+      if($r->VaiTro === 'KhaoThi' && $r->khaoThiProfile){
+      $profileText = 'MaPKT: '.$r->khaoThiProfile->MaPKT
+      .' | '.$r->khaoThiProfile->TenPhong
+      .' | '.$r->khaoThiProfile->NguoiQL;
+      }
 
-          if($r->VaiTro === 'DoanTruong' && $r->doanProfile){
-            $profileText = 'MaDT: '.$r->doanProfile->MaDT
-              .' | '.$r->doanProfile->TenDT
-              .' | '.$r->doanProfile->NguoiQL;
-          }
-        @endphp
+      if($r->VaiTro === 'DoanTruong' && $r->doanProfile){
+      $profileText = 'MaDT: '.$r->doanProfile->MaDT
+      .' | '.$r->doanProfile->TenDT
+      .' | '.$r->doanProfile->NguoiQL;
+      }
+      @endphp
 
-        <tr>
-          <td>{{ $data->firstItem() + $i }}</td>
-          <td>{{ $r->MaTK }}</td>
-          <td>{{ $r->TenDangNhap }}</td>
-          <td>{{ $r->Email }}</td>
-          <td>
-            <span class="badge rounded-pill text-white badge-role {{ strtolower($r->VaiTro) }}">
-              {{ $r->VaiTro }}
-            </span>
-          </td>
-          <td>{{ $profileText }}</td>
-          <td>
-            <button type="button"
-              class="btn btn-sm btn-outline-primary btn-animate ripple"
-              data-bs-toggle="modal"
-              data-bs-target="#modalProfile"
+      <tr>
+        <td>{{ $data->firstItem() + $i }}</td>
+        <td>{{ $r->MaTK }}</td>
+        <td>{{ $r->TenDangNhap }}</td>
+        <td>{{ $r->Email }}</td>
+        <td>
+          <span class="badge rounded-pill text-white badge-role {{ strtolower($r->VaiTro) }}">
+            {{ $r->VaiTro }}
+          </span>
+        </td>
+        <td>{{ $profileText }}</td>
+        <td>
+          <button type="button"
+            class="btn btn-sm btn-outline-primary btn-animate ripple"
+            data-bs-toggle="modal"
+            data-bs-target="#modalProfile"
 
-              data-matk="{{ $r->MaTK }}"
-              data-vaitro="{{ $r->VaiTro }}"
+            data-matk="{{ $r->MaTK }}"
+            data-vaitro="{{ $r->VaiTro }}"
 
-              data-maadmin="{{ optional($r->adminProfile)->MaAdmin }}"
+            data-maadmin="{{ optional($r->adminProfile)->MaAdmin }}"
 
-              data-mactct="{{ optional($r->ctctProfile)->MaCTCT }}"
-              data-tenphong-ctct="{{ optional($r->ctctProfile)->TenPhong }}"
-              data-nguoiql-ctct="{{ optional($r->ctctProfile)->NguoiQL }}"
+            data-mactct="{{ optional($r->ctctProfile)->MaCTCT }}"
+            data-tenphong-ctct="{{ optional($r->ctctProfile)->TenPhong }}"
+            data-nguoiql-ctct="{{ optional($r->ctctProfile)->NguoiQL }}"
 
-              data-mapkt="{{ optional($r->khaoThiProfile)->MaPKT }}"
-              data-tenphong-kt="{{ optional($r->khaoThiProfile)->TenPhong }}"
-              data-nguoiql-kt="{{ optional($r->khaoThiProfile)->NguoiQL }}"
+            data-mapkt="{{ optional($r->khaoThiProfile)->MaPKT }}"
+            data-tenphong-kt="{{ optional($r->khaoThiProfile)->TenPhong }}"
+            data-nguoiql-kt="{{ optional($r->khaoThiProfile)->NguoiQL }}"
 
-              data-madt="{{ optional($r->doanProfile)->MaDT }}"
-              data-tendt="{{ optional($r->doanProfile)->TenDT }}"
-              data-nguoiql-dt="{{ optional($r->doanProfile)->NguoiQL }}"
-            >
-              Nhập/Sửa
-            </button>
-          </td>
-        </tr>
+            data-madt="{{ optional($r->doanProfile)->MaDT }}"
+            data-tendt="{{ optional($r->doanProfile)->TenDT }}"
+            data-nguoiql-dt="{{ optional($r->doanProfile)->NguoiQL }}">
+            Nhập/Sửa
+          </button>
+        </td>
+      </tr>
       @empty
-        <tr><td colspan="7" class="text-center">Không có dữ liệu</td></tr>
+      <tr>
+        <td colspan="7" class="text-center">Không có dữ liệu</td>
+      </tr>
       @endforelse
     </tbody>
   </table>
@@ -202,85 +203,86 @@
 <script src="{{ asset('js/toast.js') }}"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const modalEl = document.getElementById('modalProfile');
-  if (!modalEl) return;
+  document.addEventListener('DOMContentLoaded', () => {
+    const modalEl = document.getElementById('modalProfile');
+    if (!modalEl) return;
 
-  const form    = modalEl.querySelector('form');
-  const hMaTK   = document.getElementById('pfMaTK');
-  const hVaiTro = document.getElementById('pfVaiTro');
+    const form = modalEl.querySelector('form');
+    const hMaTK = document.getElementById('pfMaTK');
+    const hVaiTro = document.getElementById('pfVaiTro');
 
-  function disableAllRoleInputs() {
-    modalEl.querySelectorAll('.role-block').forEach(block => {
-      block.classList.add('d-none');
-      block.querySelectorAll('input').forEach(inp => {
-        inp.value = '';
-        inp.disabled = true; // không submit input không thuộc role
+    function disableAllRoleInputs() {
+      modalEl.querySelectorAll('.role-block').forEach(block => {
+        block.classList.add('d-none');
+        block.querySelectorAll('input').forEach(inp => {
+          inp.value = '';
+          inp.disabled = true; // không submit input không thuộc role
+        });
       });
+    }
+
+    function enableRole(role) {
+      const block = modalEl.querySelector(`.role-block[data-role="${role}"]`);
+      if (!block) return;
+      block.classList.remove('d-none');
+      block.querySelectorAll('input').forEach(inp => inp.disabled = false);
+    }
+
+    modalEl.addEventListener('show.bs.modal', (ev) => {
+      const btn = ev.relatedTarget;
+      if (!btn) return;
+
+      const matk = btn.getAttribute('data-matk') || '';
+      const vaitro = btn.getAttribute('data-vaitro') || '';
+
+      hMaTK.value = matk;
+      hVaiTro.value = vaitro;
+
+      disableAllRoleInputs();
+      enableRole(vaitro);
+
+      if (vaitro === 'Admin') {
+        form.querySelector('input[name="MaAdmin"]').value = btn.getAttribute('data-maadmin') || '';
+      }
+
+      if (vaitro === 'CTCTHSSV') {
+        form.querySelector('input[name="MaCTCT"]').value = btn.getAttribute('data-mactct') || '';
+        form.querySelector('input[name="TenPhong"]').value = btn.getAttribute('data-tenphong-ctct') || '';
+        form.querySelector('input[name="NguoiQL"]').value = btn.getAttribute('data-nguoiql-ctct') || '';
+      }
+
+      if (vaitro === 'KhaoThi') {
+        form.querySelector('input[name="MaPKT"]').value = btn.getAttribute('data-mapkt') || '';
+        form.querySelector('input[name="TenPhong"]').value = btn.getAttribute('data-tenphong-kt') || '';
+        form.querySelector('input[name="NguoiQL"]').value = btn.getAttribute('data-nguoiql-kt') || '';
+      }
+
+      if (vaitro === 'DoanTruong') {
+        form.querySelector('input[name="MaDT"]').value = btn.getAttribute('data-madt') || '';
+        form.querySelector('input[name="TenDT"]').value = btn.getAttribute('data-tendt') || '';
+        form.querySelector('input[name="NguoiQL"]').value = btn.getAttribute('data-nguoiql-dt') || '';
+      }
     });
-  }
 
-  function enableRole(role) {
-    const block = modalEl.querySelector(`.role-block[data-role="${role}"]`);
-    if (!block) return;
-    block.classList.remove('d-none');
-    block.querySelectorAll('input').forEach(inp => inp.disabled = false);
-  }
+    form.addEventListener('submit', (e) => {
+      if (!hMaTK.value || !hVaiTro.value) {
+        e.preventDefault();
+        alert('Không lấy được MaTK/VaiTro. Đóng modal và bấm Nhập/Sửa lại.');
+      }
+    });
 
-  modalEl.addEventListener('show.bs.modal', (ev) => {
-    const btn = ev.relatedTarget;
-    if (!btn) return;
-
-    const matk   = btn.getAttribute('data-matk') || '';
-    const vaitro = btn.getAttribute('data-vaitro') || '';
-
-    hMaTK.value   = matk;
-    hVaiTro.value = vaitro;
-
-    disableAllRoleInputs();
-    enableRole(vaitro);
-
-    if (vaitro === 'Admin') {
-      form.querySelector('input[name="MaAdmin"]').value = btn.getAttribute('data-maadmin') || '';
+    // ===== Toast from session/errors =====
+    const ok = JSON.parse('{!! json_encode(session('
+      ok ')) !!}');
+    if (ok) {
+      window.SVToast?.toast('success', 'Thành công', ok);
     }
 
-    if (vaitro === 'CTCTHSSV') {
-      form.querySelector('input[name="MaCTCT"]').value   = btn.getAttribute('data-mactct') || '';
-      form.querySelector('input[name="TenPhong"]').value = btn.getAttribute('data-tenphong-ctct') || '';
-      form.querySelector('input[name="NguoiQL"]').value  = btn.getAttribute('data-nguoiql-ctct') || '';
-    }
-
-    if (vaitro === 'KhaoThi') {
-      form.querySelector('input[name="MaPKT"]').value    = btn.getAttribute('data-mapkt') || '';
-      form.querySelector('input[name="TenPhong"]').value = btn.getAttribute('data-tenphong-kt') || '';
-      form.querySelector('input[name="NguoiQL"]').value  = btn.getAttribute('data-nguoiql-kt') || '';
-    }
-
-    if (vaitro === 'DoanTruong') {
-      form.querySelector('input[name="MaDT"]').value     = btn.getAttribute('data-madt') || '';
-      form.querySelector('input[name="TenDT"]').value    = btn.getAttribute('data-tendt') || '';
-      form.querySelector('input[name="NguoiQL"]').value  = btn.getAttribute('data-nguoiql-dt') || '';
+    const errs = JSON.parse('{!! json_encode($errors->all()) !!}');
+    if (Array.isArray(errs) && errs.length) {
+      window.SVToast?.toast('error', 'Có lỗi nhập liệu', errs.join('\n'), 4200);
     }
   });
-
-  form.addEventListener('submit', (e) => {
-    if (!hMaTK.value || !hVaiTro.value) {
-      e.preventDefault();
-      alert('Không lấy được MaTK/VaiTro. Đóng modal và bấm Nhập/Sửa lại.');
-    }
-  });
-
-  // ===== Toast from session/errors =====
-const ok = JSON.parse('{!! json_encode(session('ok')) !!}');
-  if (ok) {
-    window.SVToast?.toast('success', 'Thành công', ok);
-  }
-
-const errs = JSON.parse('{!! json_encode($errors->all()) !!}');
-  if (Array.isArray(errs) && errs.length) {
-    window.SVToast?.toast('error', 'Có lỗi nhập liệu', errs.join('\n'), 4200);
-  }
-});
 </script>
 @endpush
 

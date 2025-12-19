@@ -10,11 +10,11 @@
     <button class="btn btn-soft-secondary btn-animate ripple" data-bs-toggle="modal" data-bs-target="#modalAdd">
       <i class="bi bi-plus-circle"></i> Thêm
     </button>
-{{-- Nút tải mẫu Excel --}}
-<a href="{{ route('admin.accounts.template') }}"
-   class="btn btn-soft-success btn-animate ripple">
-  <i class="bi bi-file-earmark-excel"></i> Mẫu Excel
-</a>
+    {{-- Nút tải mẫu Excel --}}
+    <a href="{{ route('admin.accounts.template') }}"
+      class="btn btn-soft-success btn-animate ripple">
+      <i class="bi bi-file-earmark-excel"></i> Mẫu Excel
+    </a>
     <form method="post" action="{{ route('admin.accounts.import') }}" enctype="multipart/form-data" class="d-flex gap-2">
       @csrf
       <input type="file" name="file" class="form-control" accept=".xlsx,.xls,.csv" required style="max-width:280px;">
@@ -57,18 +57,18 @@
         <td>{{ $r->Email }}</td>
         <td><code>••••••</code></td>
         <td>
-  @php $role = strtolower($r->VaiTro); @endphp
-  <span class="badge rounded-pill text-white badge-role {{ $role }}">
-    {{ $r->VaiTro }}
-  </span>
-</td>
+          @php $role = strtolower($r->VaiTro); @endphp
+          <span class="badge rounded-pill text-white badge-role {{ $role }}">
+            {{ $r->VaiTro }}
+          </span>
+        </td>
 
-<td>
-  @php $st = strtolower($r->TrangThai); @endphp
-  <span class="badge rounded-pill text-white badge-state {{ $st }}">
-    {{ $r->TrangThai }}
-  </span>
-</td>
+        <td>
+          @php $st = strtolower($r->TrangThai); @endphp
+          <span class="badge rounded-pill text-white badge-state {{ $st }}">
+            {{ $r->TrangThai }}
+          </span>
+        </td>
         <td>
           <button type="button"
             class="btn btn-sm btn-outline-primary btn-animate ripple me-1"
@@ -332,33 +332,37 @@
 @endif
 <script>
   // ===== Ripple effect cho mọi .ripple =====
-  document.addEventListener('click', function(e){
+  document.addEventListener('click', function(e) {
     const t = e.target.closest('.ripple');
-    if(!t) return;
+    if (!t) return;
     const rect = t.getBoundingClientRect();
     const d = Math.max(rect.width, rect.height);
-    const x = e.clientX - rect.left - d/2;
-    const y = e.clientY - rect.top - d/2;
+    const x = e.clientX - rect.left - d / 2;
+    const y = e.clientY - rect.top - d / 2;
 
     const ink = document.createElement('span');
-    ink.style.position='absolute';
-    ink.style.borderRadius='50%';
-    ink.style.pointerEvents='none';
-    ink.style.width=ink.style.height=d+'px';
-    ink.style.left=x+'px'; ink.style.top=y+'px';
-    ink.style.background='rgba(255,255,255,.35)';
-    ink.style.transform='scale(0)';
-    ink.style.transition='transform .35s ease, opacity .55s ease';
+    ink.style.position = 'absolute';
+    ink.style.borderRadius = '50%';
+    ink.style.pointerEvents = 'none';
+    ink.style.width = ink.style.height = d + 'px';
+    ink.style.left = x + 'px';
+    ink.style.top = y + 'px';
+    ink.style.background = 'rgba(255,255,255,.35)';
+    ink.style.transform = 'scale(0)';
+    ink.style.transition = 'transform .35s ease, opacity .55s ease';
     t.appendChild(ink);
 
-    requestAnimationFrame(()=>{ ink.style.transform='scale(2.6)'; ink.style.opacity='0'; });
-    setTimeout(()=>ink.remove(), 520);
+    requestAnimationFrame(() => {
+      ink.style.transform = 'scale(2.6)';
+      ink.style.opacity = '0';
+    });
+    setTimeout(() => ink.remove(), 520);
   });
 
   // ===== Kích hoạt tooltip Bootstrap (nếu có) =====
   document.addEventListener('DOMContentLoaded', () => {
     [...document.querySelectorAll('[data-bs-toggle="tooltip"]')]
-      .forEach(el => new bootstrap.Tooltip(el));
+    .forEach(el => new bootstrap.Tooltip(el));
   });
 </script>
 @endpush

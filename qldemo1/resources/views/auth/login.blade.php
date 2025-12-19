@@ -11,12 +11,12 @@
   <div class="auth-left">
 
     {{-- TOAST: đặt ngoài card-box để không bị "nhốt" trong khung --}}
-@if(session('ok'))
-  <div class="toast-notification toast-success" id="loginToast">
-    <span class="toast-icon">✔</span>
-    <span>{{ session('ok') }}</span>
-  </div>
-@endif
+    @if(session('ok'))
+    <div class="toast-notification toast-success" id="loginToast">
+      <span class="toast-icon">✔</span>
+      <span>{{ session('ok') }}</span>
+    </div>
+    @endif
 
     {{-- Logo trường + tên trường (1 ảnh gộp) --}}
     <div class="brand-combo">
@@ -49,10 +49,9 @@
             value="{{ old('TenDangNhap') }}"
             class="form-control @error('TenDangNhap') is-invalid @enderror"
             placeholder="Username"
-            required
-          >
+            required>
           @error('TenDangNhap')
-            <div class="invalid-feedback d-block">{{ $message }}</div>
+          <div class="invalid-feedback d-block">{{ $message }}</div>
           @enderror
         </div>
 
@@ -63,15 +62,14 @@
             name="MatKhau"
             class="form-control @error('MatKhau') is-invalid @enderror"
             placeholder="Password"
-            required
-          >
+            required>
           @error('MatKhau')
-            <div class="invalid-feedback d-block">{{ $message }}</div>
+          <div class="invalid-feedback d-block">{{ $message }}</div>
           @enderror
 
           {{-- Nếu có lỗi chung (không thuộc 2 field) --}}
           @if ($errors->any() && !$errors->has('TenDangNhap') && !$errors->has('MatKhau'))
-            <div class="invalid-feedback d-block mt-1">{{ $errors->first() }}</div>
+          <div class="invalid-feedback d-block mt-1">{{ $errors->first() }}</div>
           @endif
         </div>
 
@@ -98,7 +96,7 @@
 
 @push('scripts')
 <script>
-  (function () {
+  (function() {
     const toasts = document.querySelectorAll('.sv-alert');
     if (!toasts.length) return;
 

@@ -27,7 +27,7 @@
       <div class="text-center fw-bold mb-2" style="font-size:14px;">ĐỔI MẬT KHẨU</div>
 
       @if(session('ok'))
-        <div class="alert alert-success mb-3 py-2 text-center">{{ session('ok') }}</div>
+      <div class="alert alert-success mb-3 py-2 text-center">{{ session('ok') }}</div>
       @endif
 
       <form method="POST" action="{{ route('reset.handle') }}" novalidate>
@@ -36,20 +36,20 @@
         <div class="mb-3">
           <label class="form-label">Mật khẩu mới</label>
           <input type="password" name="MatKhau"
-                 class="form-control @error('MatKhau') is-invalid @enderror"
-                 placeholder="Nhập mật khẩu mới" required>
+            class="form-control @error('MatKhau') is-invalid @enderror"
+            placeholder="Nhập mật khẩu mới" required>
           @error('MatKhau')
-            <div class="invalid-feedback d-block">{{ $message }}</div>
+          <div class="invalid-feedback d-block">{{ $message }}</div>
           @enderror
         </div>
 
         <div class="mb-3">
           <label class="form-label">Xác nhận mật khẩu</label>
           <input type="password" name="MatKhau_confirmation"
-                 class="form-control @error('MatKhau_confirmation') is-invalid @enderror"
-                 placeholder="Nhập lại mật khẩu" required>
+            class="form-control @error('MatKhau_confirmation') is-invalid @enderror"
+            placeholder="Nhập lại mật khẩu" required>
           @error('MatKhau_confirmation')
-            <div class="invalid-feedback d-block">{{ $message }}</div>
+          <div class="invalid-feedback d-block">{{ $message }}</div>
           @enderror
         </div>
 
@@ -61,7 +61,7 @@
       </form>
     </div>
 
-   <div class="footer-note">
+    <div class="footer-note">
       ©2025 Hệ thống QLRLKTSV. Developed by
       <a href="https://github.com/JWHYHSTS/LTPHP_LIVINGCELLS_25_26" target="_blank">
         <img src="{{ asset('assets/images/logo_dark.png') }}" alt="Living Cell Logo">

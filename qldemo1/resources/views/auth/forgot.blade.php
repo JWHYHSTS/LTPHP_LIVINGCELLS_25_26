@@ -39,7 +39,7 @@
             placeholder="Nhập tên đăng nhập"
             required>
           @error('TenDangNhap')
-            <div class="invalid-feedback d-block">{{ $message }}</div>
+          <div class="invalid-feedback d-block">{{ $message }}</div>
           @enderror
         </div>
 
@@ -53,15 +53,15 @@
             placeholder="name@yourdomain.edu.vn"
             required>
           @error('Email')
-            <div class="invalid-feedback d-block">{{ $message }}</div>
+          <div class="invalid-feedback d-block">{{ $message }}</div>
           @enderror
         </div>
 
         {{-- Lỗi xác thực tài khoản + email không khớp --}}
         @if ($errors->has('credentials'))
-          <div class="invalid-feedback d-block mb-2">
-            {{ $errors->first('credentials') }}
-          </div>
+        <div class="invalid-feedback d-block mb-2">
+          {{ $errors->first('credentials') }}
+        </div>
         @endif
 
         <button class="btn btn-primary w-100">Xác nhận</button>

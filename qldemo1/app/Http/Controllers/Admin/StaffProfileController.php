@@ -24,9 +24,9 @@ class StaffProfileController extends Controller
             ->when($q !== '', function ($query) use ($q) {
                 $query->where(function ($qq) use ($q) {
                     $qq->where('TenDangNhap', 'like', "%{$q}%")
-                       ->orWhere('Email', 'like', "%{$q}%")
-                       ->orWhere('VaiTro', 'like', "%{$q}%")
-                       ->orWhere('MaTK', $q);
+                        ->orWhere('Email', 'like', "%{$q}%")
+                        ->orWhere('VaiTro', 'like', "%{$q}%")
+                        ->orWhere('MaTK', $q);
                 });
             })
             ->with(['adminProfile', 'ctctProfile', 'khaoThiProfile', 'doanProfile'])
@@ -42,7 +42,7 @@ class StaffProfileController extends Controller
         // 1) Validate chung
         $r->validate([
             'MaTK'   => ['required', 'integer', 'exists:BANG_TaiKhoan,MaTK'],
-            'VaiTro' => ['required', Rule::in(['Admin','CTCTHSSV','KhaoThi','DoanTruong'])],
+            'VaiTro' => ['required', Rule::in(['Admin', 'CTCTHSSV', 'KhaoThi', 'DoanTruong'])],
 
             // field để form dùng chung (nullable)
             'MaAdmin' => ['nullable', 'string', 'max:20'],
@@ -74,7 +74,9 @@ class StaffProfileController extends Controller
 
             $r->validate([
                 'MaAdmin' => [
-                    'required', 'string', 'max:20',
+                    'required',
+                    'string',
+                    'max:20',
                     // UNIQUE theo MaAdmin, nhưng khi sửa thì ignore theo MaTK (không dùng id)
                     Rule::unique('BANG_Admin', 'MaAdmin')->ignore($tk->MaTK, 'MaTK'),
                 ],
@@ -96,7 +98,9 @@ class StaffProfileController extends Controller
 
             $r->validate([
                 'MaCTCT' => [
-                    'required', 'string', 'max:20',
+                    'required',
+                    'string',
+                    'max:20',
                     // UNIQUE MaCTCT, ignore theo MaTK
                     Rule::unique('BANG_CTCTHSSV', 'MaCTCT')->ignore($tk->MaTK, 'MaTK'),
                 ],
@@ -128,7 +132,9 @@ class StaffProfileController extends Controller
 
             $r->validate([
                 'MaPKT' => [
-                    'required', 'string', 'max:20',
+                    'required',
+                    'string',
+                    'max:20',
                     // Lưu ý: tên bảng phải đúng DB của bạn (bạn đang dùng BANG_KhaoThi)
                     Rule::unique('BANG_KhaoThi', 'MaPKT')->ignore($tk->MaTK, 'MaTK'),
                 ],
@@ -159,7 +165,9 @@ class StaffProfileController extends Controller
         // DoanTruong
         $r->validate([
             'MaDT' => [
-                'required', 'string', 'max:20',
+                'required',
+                'string',
+                'max:20',
                 // Lưu ý: tên bảng phải đúng DB của bạn (bạn đang dùng BANG_DoanTruong)
                 Rule::unique('BANG_DoanTruong', 'MaDT')->ignore($tk->MaTK, 'MaTK'),
             ],

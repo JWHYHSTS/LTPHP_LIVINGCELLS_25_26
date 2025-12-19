@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TaiKhoan;        
+use App\Models\TaiKhoan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -108,7 +108,7 @@ class AuthController extends Controller
         }
 
         $r->validate([
-            'MatKhau' => 'required|min:6|confirmed', 
+            'MatKhau' => 'required|min:6|confirmed',
         ]);
 
         $id = $r->session()->get('reset_ok_user_id');
