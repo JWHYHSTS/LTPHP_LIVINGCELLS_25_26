@@ -1,2 +1,8 @@
+# Ignore everything by default
 *
+# But keep this .gitignore file
 !.gitignore
+
+# Allow tracking event images folder + files
+!sukien/
+!sukien/**

@@ -18,7 +18,162 @@
 @section('content')
 
 <div class="container-fluid" style="padding-left:10px;">
+<<<<<<< HEAD
   <div class="doan-sukien-page">
+=======
+    <div class="doan-sukien-page">
+
+        <div class="doan-sukien-header">
+            <div>
+                <h1 class="doan-sukien-title">Quản lý sự kiện</h1>
+                <div class="doan-sukien-subtitle">Tạo, cập nhật và đóng/mở các sự kiện tình nguyện.</div>
+            </div>
+        </div>
+
+        {{-- Toast success/error (modern + auto hide) --}}
+        @if(session('success'))
+        <div class="sv-toast sv-toast-success sv-alert" role="alert">
+            <div>
+                <p class="sv-toast-title">Thành công</p>
+                <p class="sv-toast-msg">{{ session('success') }}</p>
+            </div>
+            <button type="button" class="sv-toast-close" aria-label="Close">×</button>
+        </div>
+        @endif
+
+        @if(session('error'))
+        <div class="sv-toast sv-toast-error sv-alert" role="alert">
+            <div>
+                <p class="sv-toast-title">Thất bại</p>
+                <p class="sv-toast-msg">{{ session('error') }}</p>
+            </div>
+            <button type="button" class="sv-toast-close" aria-label="Close">×</button>
+        </div>
+        @endif
+
+        <form class="doan-sukien-toolbar" method="GET" action="{{ route('doan.sukien.index') }}">
+            <input class="doan-sukien-search" name="q" value="{{ $q ?? '' }}" placeholder="Tìm tiêu đề / địa điểm...">
+            <button class="btn btn-sv btn-sv-ghost" type="submit">Tìm</button>
+
+            <button type="button" class="btn btn-sv btn-sv-primary"
+                data-bs-toggle="modal" data-bs-target="#modalCreate">
+                Thêm
+            </button>
+        </form>
+
+        <div class="doan-sukien-card table-responsive">
+            <table class="table doan-sukien-table align-middle">
+                <thead>
+                    <tr>
+                        <th style="width:60px;">STT</th>
+                        <th style>Tiêu đề</th>
+                        <th style="width:230px;">Thời gian</th>
+                        <th style="width:350px;">Địa điểm</th>
+                        <th style="width:200px;">SL tối đa</th>
+                        <th style="width:120px;">Trạng thái</th>
+                        <th style="width:130px;">Ảnh</th>
+                        <th style="width:280px;">Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @forelse($events as $i => $e)
+                    <tr>
+                        <td>{{ $events->firstItem() + $i }}</td>
+
+                        <td>
+                            <div class="fw-bold">{{ $e->TieuDe }}</div>
+                            <div class="doan-sukien-muted" style="max-width:520px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                {{ $e->NoiDung }}
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="fw-semibold">{{ $e->ThoiGianBatDau }}</div>
+                            <div class="doan-sukien-muted">{{ $e->ThoiGianKetThuc }}</div>
+                        </td>
+
+                        <td class="event-location">
+                            {{ $e->DiaDiem }}
+                        </td>
+                        <td>{{ $e->SoLuongToiDa ?? 'Không giới hạn' }}</td>
+
+                        <td>
+                            @php
+                            $cls = match($e->TrangThai) {
+                            'Open' => 'badge-open',
+                            'Closed' => 'badge-closed',
+                            'Draft' => 'badge-draft',
+                            'Cancelled' => 'badge-cancel',
+                            default => 'badge-closed'
+                            };
+                            @endphp
+                            <span class="badge-status {{ $cls }}">{{ $e->TrangThai }}</span>
+                        </td>
+
+                        <td>
+                            @if(!empty($imageMap[$e->MaSK]))
+                            @php
+                            $rel = $imageMap[$e->MaSK];
+                            $abs = public_path($rel);
+                            $v = file_exists($abs) ? filemtime($abs) : time();
+                            @endphp
+
+                            <img class="thumb" src="{{ asset($rel) }}?v={{ $v }}" alt="Ảnh sự kiện">
+                            @else
+                            <span class="doan-sukien-muted">Không có</span>
+                            @endif
+                        </td>
+
+                        <td class="text-nowrap">
+                            <button class="btn btn-sv btn-sv-ghost btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEdit{{ $e->MaSK }}">
+                                Sửa
+                            </button>
+
+                            <form class="d-inline" method="POST"
+                                action="{{ route('doan.sukien.delete') }}"
+                                onsubmit="return confirm('Xóa sự kiện này?');">
+                                @csrf
+                                <input type="hidden" name="MaSK" value="{{ $e->MaSK }}">
+                                <button class="btn btn-sv btn-sv-danger btn-sm" type="submit">Xóa</button>
+                            </form>
+
+                            <form class="d-inline" method="POST" action="{{ route('doan.sukien.toggle') }}">
+                                @csrf
+                                <input type="hidden" name="MaSK" value="{{ $e->MaSK }}">
+                                @php
+                                $toggleLabel = match($e->TrangThai) {
+                                'Open' => 'Đóng',
+                                'Closed' => 'Mở',
+                                'Draft' => 'Mở',
+                                'Cancelled' => 'Đã huỷ',
+                                default => 'Mở',
+                                };
+                                $disabledToggle = ($e->TrangThai === 'Cancelled');
+                                @endphp
+
+                                <button class="btn btn-sv btn-sv-success btn-sm" type="submit" @disabled($disabledToggle)>
+                                    {{ $toggleLabel }}
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="8" class="text-center doan-sukien-muted">Chưa có sự kiện</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            @if($events->hasPages())
+            <div class="d-flex justify-content-end mt-3 pe-2">
+                {{ $events->links('vendor.pagination.doan-sukien') }}
+            </div>
+            @endif
+        </div>
+>>>>>>> 438e12397e40937f7ebf9dc2ee5ccb2bcefa3a79
 
     <div class="doan-sukien-header">
       <div>
