@@ -1,0 +1,243 @@
+/* =========================================================
+   SV Event Modal - Modern UI
+   Target: #eventDetailModal (Bootstrap Modal)
+   ========================================================= */
+
+#eventDetailModal .modal-dialog {
+  max-width: 980px;
+}
+
+#eventDetailModal .modal-content {
+  border: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow:
+    0 24px 70px rgba(15, 23, 42, 0.16),
+    0 10px 26px rgba(15, 23, 42, 0.10);
+}
+
+/* Backdrop mềm hơn */
+.modal-backdrop.show {
+  opacity: 0.55;
+}
+
+/* Header */
+#eventDetailModal .modal-header {
+  border-bottom: 0;
+  padding: 18px 20px 12px;
+}
+
+#eventDetailModal .modal-title {
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.2px;
+  color: #0f172a;
+}
+
+#eventDetailModal .btn-close {
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+#eventDetailModal .btn-close:hover {
+  opacity: 1;
+}
+
+/* Body layout */
+#eventDetailModal .modal-body {
+  padding: 0;
+  background:
+    linear-gradient(180deg, rgba(248, 250, 252, 0.9), rgba(255,255,255, 1));
+}
+
+/* Cover */
+#eventDetailModal .modal-body > div:first-child {
+  position: relative;
+  height: 320px !important; /* tăng chiều cao cover */
+  background: #eef2f7;
+}
+
+#eventDetailModal #mCover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.01);
+}
+
+/* Overlay giúp chữ/chips nổi hơn */
+#eventDetailModal .modal-body > div:first-child::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.00) 40%,
+    rgba(15, 23, 42, 0.30) 100%
+  );
+  pointer-events: none;
+}
+
+/* Khối nội dung */
+#eventDetailModal .modal-body > div:nth-child(2) {
+  padding: 18px 22px 8px !important;
+}
+
+/* Chips row */
+#eventDetailModal #mChips {
+  margin-top: 2px;
+  margin-bottom: 12px !important;
+  display: flex;
+  gap: 10px !important;
+  flex-wrap: wrap;
+}
+
+/* Chip chung */
+#eventDetailModal .sv-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-weight: 700;
+  font-size: 13px;
+  border: 1px solid rgba(2, 6, 23, 0.08);
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
+  backdrop-filter: blur(10px);
+}
+
+/* Nếu project đã có sv-chip-* thì giữ nguyên, chỉ làm “đẹp” lại */
+#eventDetailModal .sv-chip-success {
+  background: rgba(16, 185, 129, 0.14);
+  color: #065f46;
+  border-color: rgba(16, 185, 129, 0.20);
+}
+#eventDetailModal .sv-chip-neutral {
+  background: rgba(148, 163, 184, 0.16);
+  color: #334155;
+  border-color: rgba(148, 163, 184, 0.25);
+}
+#eventDetailModal .sv-chip-warning {
+  background: rgba(245, 158, 11, 0.16);
+  color: #92400e;
+  border-color: rgba(245, 158, 11, 0.25);
+}
+#eventDetailModal .sv-chip-danger {
+  background: rgba(239, 68, 68, 0.14);
+  color: #991b1b;
+  border-color: rgba(239, 68, 68, 0.25);
+}
+#eventDetailModal .sv-chip-registered {
+  background: rgba(59, 130, 246, 0.14);
+  color: #1e3a8a;
+  border-color: rgba(59, 130, 246, 0.25);
+}
+
+/* Meta (thời gian/địa điểm/SL) */
+#eventDetailModal .sv-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px !important;
+  color: #334155;
+  font-size: 14px;
+}
+
+#eventDetailModal .sv-meta > span {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 999px;
+  padding: 8px 12px;
+}
+
+#eventDetailModal .sv-meta .dot {
+  display: none !important; /* bỏ dot để gọn */
+}
+
+/* Separator */
+#eventDetailModal hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(15,23,42,0.06), rgba(15,23,42,0.12), rgba(15,23,42,0.06));
+  margin: 14px 0 !important;
+}
+
+/* Content */
+#eventDetailModal #mContent {
+  color: #0f172a;
+  font-size: 15px;
+  line-height: 1.8 !important;
+  padding-bottom: 6px;
+}
+
+/* Footer */
+#eventDetailModal .modal-footer {
+  border-top: 0;
+  padding: 16px 20px 18px;
+  background: #ffffff;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+/* Buttons */
+#eventDetailModal .modal-footer .btn,
+#eventDetailModal .modal-footer button {
+  border-radius: 12px !important;
+  padding: 10px 16px !important;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+}
+
+/* Nút đóng */
+#eventDetailModal .btn-outline-secondary {
+  border-color: rgba(15, 23, 42, 0.14);
+  color: #0f172a;
+  background: rgba(15, 23, 42, 0.02);
+}
+#eventDetailModal .btn-outline-secondary:hover {
+  background: rgba(15, 23, 42, 0.06);
+}
+
+/* Nút đăng ký */
+#eventDetailModal .btn-primary {
+  border: 0;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.24);
+}
+#eventDetailModal .btn-primary:hover {
+  filter: brightness(1.02);
+}
+#eventDetailModal .btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* Nút disabled */
+#eventDetailModal #mDisabledBtn {
+  border: 0;
+  background: rgba(148, 163, 184, 0.35);
+  color: rgba(15, 23, 42, 0.55);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  #eventDetailModal .modal-dialog {
+    margin: 12px;
+  }
+  #eventDetailModal .modal-body > div:first-child {
+    height: 220px !important;
+  }
+  #eventDetailModal .modal-title {
+    font-size: 18px;
+  }
+  #eventDetailModal .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #eventDetailModal .modal-footer .btn,
+  #eventDetailModal .modal-footer button {
+    width: 100%;
+  }
+}
