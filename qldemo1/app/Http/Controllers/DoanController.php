@@ -28,6 +28,7 @@ use App\Models\SuKien;
 use App\Models\SuKienAnh;
 use App\Models\DangKySuKien;
 
+
 class DoanController extends Controller
 {
     /* ======================== Khen thưởng danh hiệu ======================== */
@@ -499,24 +500,33 @@ class DoanController extends Controller
         $sk->save();
 
         // nếu upload thêm ảnh thì append vào cuối
+        // nếu upload ảnh thì đưa ảnh mới lên đầu (ThuTu = 1,2,3..)
         if ($request->hasFile('images')) {
-            $maxOrder = SuKienAnh::where('MaSK', $sk->MaSK)->max('ThuTu');
-            $order = $maxOrder ? ($maxOrder + 1) : 1;
 
-            foreach ($request->file('images') as $img) {
-                if (!$img) continue;
+            DB::transaction(function () use ($request, $sk) {
 
-                $path = $img->store('sukien', 'public');
-                $publicPath = 'storage/' . $path;
+                $files = array_values(array_filter($request->file('images')));
 
-                SuKienAnh::create([
-                    'MaSK'     => $sk->MaSK,
-                    'DuongDan' => $publicPath,
-                    'TenFile'  => $img->getClientOriginalName(),
-                    'ThuTu'    => $order++,
-                    'TaoLuc'   => now(),
-                ]);
-            }
+                if (count($files) === 0) return;
+
+                // 1) Đẩy toàn bộ ảnh cũ xuống dưới để nhường ThuTu 1..N cho ảnh mới
+                SuKienAnh::where('MaSK', $sk->MaSK)->increment('ThuTu', count($files));
+
+                // 2) Lưu ảnh mới với ThuTu = 1..N
+                $order = 1;
+                foreach ($files as $img) {
+                    $path = $img->store('sukien', 'public'); // storage/app/public/sukien/...
+                    $publicPath = 'storage/' . $path;
+
+                    SuKienAnh::create([
+                        'MaSK'     => $sk->MaSK,
+                        'DuongDan' => $publicPath,
+                        'TenFile'  => $img->getClientOriginalName(),
+                        'ThuTu'    => $order++,
+                        'TaoLuc'   => now(),
+                    ]);
+                }
+            });
         }
 
         return redirect()->route('doan.sukien.index')->with('success', 'Đã cập nhật sự kiện.');

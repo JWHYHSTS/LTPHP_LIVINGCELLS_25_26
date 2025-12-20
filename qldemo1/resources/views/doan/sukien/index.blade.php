@@ -113,7 +113,13 @@
 
                         <td>
                             @if(!empty($imageMap[$e->MaSK]))
-                            <img class="thumb" src="{{ asset($imageMap[$e->MaSK]) }}" alt="Ảnh sự kiện">
+                            @php
+                            $rel = $imageMap[$e->MaSK];
+                            $abs = public_path($rel);
+                            $v = file_exists($abs) ? filemtime($abs) : time();
+                            @endphp
+
+                            <img class="thumb" src="{{ asset($rel) }}?v={{ $v }}" alt="Ảnh sự kiện">
                             @else
                             <span class="doan-sukien-muted">Không có</span>
                             @endif
