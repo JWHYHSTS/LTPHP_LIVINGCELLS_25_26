@@ -1,5 +1,4 @@
 {{-- resources/views/components/ai-event-chatbox.blade.php --}}
-<link rel="stylesheet" href="{{ asset('css/ai-chatbox-modern.css') }}">
 
 <div class="ai-chat-widget" id="aiChatWidget" aria-live="polite">
   <div class="ai-chat-panel" id="aiChatPanel" role="dialog" aria-label="AI Trợ lý hệ thống" aria-modal="false">

@@ -18,6 +18,9 @@
   <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
   <link rel="stylesheet" href="{{ asset('css/sinhvien-title.css') }}">
   <link rel="stylesheet" href="{{ asset('css/toast.css') }}">
+  
+{{-- AI chatbox --}}
+<link rel="stylesheet" href="{{ asset('css/ai.css') }}">
   @stack('styles')
 
   <style>
