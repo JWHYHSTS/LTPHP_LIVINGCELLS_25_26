@@ -18,15 +18,6 @@
   </div>
 </div>
 
-{{-- (Tuỳ chọn) giữ box lỗi đỏ để dễ xem chi tiết --}}
-@if($errors->any())
-<div class="alert alert-danger">
-  <div class="fw-semibold mb-1">Có lỗi nhập liệu:</div>
-  <ul class="mb-0">
-    @foreach($errors->all() as $e) <li>{{ $e }}</li> @endforeach
-  </ul>
-</div>
-@endif
 
 <div class="table-responsive">
   <table class="table table-bordered table-hover align-middle">

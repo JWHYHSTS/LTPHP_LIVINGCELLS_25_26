@@ -96,12 +96,12 @@ class StaffProfileController extends Controller
 
         if ($tk->VaiTro === 'CTCTHSSV') {
 
+            // 1. Validate dữ liệu
             $r->validate([
                 'MaCTCT' => [
                     'required',
                     'string',
                     'max:20',
-                    // UNIQUE MaCTCT, ignore theo MaTK
                     Rule::unique('BANG_CTCTHSSV', 'MaCTCT')->ignore($tk->MaTK, 'MaTK'),
                 ],
                 'TenPhong' => ['required', 'string', 'max:50'],
@@ -116,6 +116,18 @@ class StaffProfileController extends Controller
                 'NguoiQL.max'       => 'Người quản lý không được vượt quá 50 ký tự.',
             ]);
 
+            // 2. KIỂM TRA NGHIỆP VỤ: 1 phòng chỉ có 1 người quản lý
+            $existsManager = CtctHssvProfile::where('TenPhong', $r->TenPhong)
+                ->where('MaCTCT', '!=', $r->MaCTCT)
+                ->exists();
+
+            if ($existsManager) {
+                return back()->withErrors([
+                    'TenPhong' => 'Phòng này đã có người quản lý. Vui lòng chọn phòng khác.'
+                ])->withInput();
+            }
+
+            // 3. Lưu dữ liệu
             CtctHssvProfile::updateOrCreate(
                 ['MaTK' => $tk->MaTK],
                 [
@@ -127,6 +139,7 @@ class StaffProfileController extends Controller
 
             return redirect()->route('admin.staff.index')->with('ok', 'Đã lưu thông tin CTCT-HSSV.');
         }
+
 
         if ($tk->VaiTro === 'KhaoThi') {
 
@@ -149,6 +162,16 @@ class StaffProfileController extends Controller
                 'NguoiQL.required'  => 'Người quản lý là bắt buộc.',
                 'NguoiQL.max'       => 'Người quản lý không được vượt quá 50 ký tự.',
             ]);
+            // 2. KIỂM TRA NGHIỆP VỤ: 1 phòng chỉ có 1 người quản lý (Khảo thí)
+            $existsManager = KhaoThiProfile::where('TenPhong', $r->TenPhong)
+                ->where('MaPKT', '!=', $r->MaPKT)
+                ->exists();
+
+            if ($existsManager) {
+                return back()->withErrors([
+                    'TenPhong' => 'Phòng này đã có người quản lý. Vui lòng chọn phòng khác.'
+                ])->withInput();
+            }
 
             KhaoThiProfile::updateOrCreate(
                 ['MaTK' => $tk->MaTK],
@@ -182,7 +205,16 @@ class StaffProfileController extends Controller
             'NguoiQL.required' => 'Người quản lý là bắt buộc.',
             'NguoiQL.max'      => 'Người quản lý không được vượt quá 50 ký tự.',
         ]);
+        // 2. KIỂM TRA NGHIỆP VỤ: 1 đơn vị Đoàn trường chỉ có 1 người quản lý
+        $existsManager = DoanTruongProfile::where('TenDT', $r->TenDT)
+            ->where('MaDT', '!=', $r->MaDT)
+            ->exists();
 
+        if ($existsManager) {
+            return back()->withErrors([
+                'TenDT' => 'Đơn vị này đã có người quản lý. Vui lòng chọn tên khác.'
+            ])->withInput();
+        }
         DoanTruongProfile::updateOrCreate(
             ['MaTK' => $tk->MaTK],
             [
