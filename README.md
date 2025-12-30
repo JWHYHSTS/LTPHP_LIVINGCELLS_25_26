@@ -1,5 +1,5 @@
 # 🌱 Living Cells  
-## 🎓 Hệ thống Quản lý Sinh viên, Sự kiện & Khen thưởng
+## 🎓 HỆ THỐNG QUẢN LÝ RÈN LUYỆN & KHEN THƯỞNG SINH VIÊN
 
 ![PHP](https://img.shields.io/badge/PHP-8.x-777BB4?logo=php&logoColor=white)
 ![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?logo=laravel&logoColor=white)
